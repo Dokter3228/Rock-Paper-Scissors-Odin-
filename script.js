@@ -1,7 +1,15 @@
 "use strict";
-
 let human = 0;
 let computer = 0;
+
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
+
+const computerScore = document.querySelector("#computerScore");
+const humanScore = document.querySelector("#humanScore");
+
+const display = document.querySelector("#display");
 
 function getComputerChoice() {
   let randomNum = Math.floor(Math.random() * 3) + 1;
@@ -14,7 +22,6 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-  playerSelection = playerSelection.toLowerCase();
   console.log(playerSelection, computerSelection);
   let counter;
   function round() {
@@ -56,24 +63,49 @@ function playRound(playerSelection, computerSelection) {
   return round();
 }
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    const player = prompt("Choose the thing!");
-    console.log(playRound(player, getComputerChoice()));
-    if (human == 3) {
-      console.log("YOU COMPLETELY DESTROYED THE COMPUTER");
-      console.log(`Your score: ${human}
-    Computer's score: ${computer}`);
-      break;
-    } else if (computer == 3) {
-      console.log("YOU LOSE TO THE FREAKING COMPUTER");
-      console.log(`Your score: ${human}
-    Computer's score: ${computer}`);
-      break;
-    }
-    console.log(`Your score: ${human}
-    Computer's score: ${computer}`);
-  }
+function clearScores() {
+  human = 0;
+  computer = 0;
+  computerScore.textContent = "Computer score: " + computer;
+  humanScore.textContent = "You score: " + human;
 }
 
-game();
+function scoresUpdate() {
+  computerScore.textContent = "Computer score: " + computer;
+  humanScore.textContent = "You score: " + human;
+}
+
+function game() {
+  if (computer >= 3) {
+    display.textContent = `You lost!`;
+    clearScores();
+  } else if (human >= 3) {
+    display.textContent = `You won!`;
+    clearScores();
+  }
+
+  if (human == 3) {
+    scoresUpdate();
+  } else if (computer == 3) {
+    scoresUpdate();
+  }
+  scoresUpdate();
+}
+
+rockBtn.addEventListener("click", function () {
+  console.log(playRound("rock", getComputerChoice()));
+  display.textContent = "Choose the weapon!";
+  game();
+});
+
+paperBtn.addEventListener("click", function () {
+  console.log(playRound("paper", getComputerChoice()));
+  display.textContent = "Choose the weapon!";
+  game();
+});
+
+scissorsBtn.addEventListener("click", function () {
+  console.log(playRound("scissors", getComputerChoice()));
+  display.textContent = "Choose the weapon!";
+  game();
+});
